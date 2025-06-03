@@ -77,6 +77,8 @@ class Account:
             transaction = Transaction(f"You requested a loan of {amount}", amount, "Loan")
             self.transactions.append(transaction)
             return f"Your new balance is {self.get_balance()}"
+        else:
+            return "You are not eligible for the loan"
 
     def pay_loan(self, amount):
         if amount <= 0:

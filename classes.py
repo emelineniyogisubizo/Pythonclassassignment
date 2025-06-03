@@ -30,6 +30,11 @@ class Account:
         transaction = Transaction(f"You have deposited {amount}", amount, "Deposit")
         self.transactions.append(transaction)
         return f"Confirmed, new balance is {self.get_balance()}."
+    
+    def calculate_loan_limit(self):
+        total_deposit = sum(self.deposits)
+        loan_limt = total_deposit//3
+        return loan_limt
 
     def withdraw(self, amount):
         if amount <= 0:
@@ -65,11 +70,13 @@ class Account:
     def get_loan(self, amount):
         if amount <= 0:
             return "You cannot borrow a negative amount"
-        self.loan += amount  
-        self._balance += amount
-        transaction = Transaction(f"You requested a loan of {amount}", amount, "Loan")
-        self.transactions.append(transaction)
-        return f"Your new balance is {self.get_balance()}"
+        
+        if amount <= self.calculate_loan_limit():
+            self.loan += amount  
+            self._balance += amount
+            transaction = Transaction(f"You requested a loan of {amount}", amount, "Loan")
+            self.transactions.append(transaction)
+            return f"Your new balance is {self.get_balance()}"
 
     def pay_loan(self, amount):
         if amount <= 0:
